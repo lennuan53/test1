@@ -1,0 +1,34 @@
+### 1. 注册用户
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "23111301040目成浩",
+  "password": "123456",
+  "email": "idea@test.com",
+  "phone": "1111111111"
+}
+
+### 2. 用户登录（获取token并保存到变量）
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "23111301040目成浩",
+  "password": "123456"
+}
+
+> {%
+    // 提取登录响应中的token，保存到变量中供后续请求使用
+    client.global.set("authToken", response.body.data.token);
+%}
+
+### 3. 获取用户信息（使用上一步的token）
+GET http://localhost:8080/api/auth/user/ideauser
+Content-Type: application/json
+Authorization: {{authToken}}  // 引用全局变量
+
+### 4. 用户登出（使用保存的token）
+POST http://localhost:8080/api/auth/logout
+Content-Type: application/json
+Authorization: {{authToken}}  // 引用全局变量
